@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\User as UserMod;
+use App\Model\Shop as ShopMod;
+use App\Model\Product as ProductMod;
+
 
 class UsersController extends Controller
 {
@@ -15,7 +18,12 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+{
+       /*$mods = UserMod::all();
+        return view('template', compact('mods'));
+    
+ }
+
         //$mods = UserMod::all();
         /*$mods = UserMod::where('active', 1)
         ->where('city', "Bangkok")
@@ -23,15 +31,21 @@ class UsersController extends Controller
         ->take(100)
         ->get();*/
         
-        $mods = UserMod::find([1, 2, 3,4,5,6]);
+        /*$mods = UserMod::find([1, 2, 3,4,5,6]);
 
            foreach ($mods as $item) {
              echo $item->name." ".$item->surname." ".$item->email; 
               echo "<br />";
 
+        }*/ 
+       // $mods = UserMod::all();
+    
+          $mods = UserMod::paginate(10);
+    return view('admin.user.lists', compact('mods') );
+
         }
 
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -40,8 +54,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $count = UserMod::where('active', 1)->count();
-    
+        $count = UserMod::where('active',1)->count();   
     }
 
     /**
@@ -52,7 +65,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request); exit;
+        $mod = new UserMod;
+        $mod->name = $request->name;
+        $mod->email = $request->email;
+        $mod->password = bcrypt($request->password);
+        $mod->save();
     }
 
     /**
@@ -63,8 +81,40 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $mod = UserMod::find($id);
-        echo $mod->name." ".$mod->surname." ".$mod->email; 
+        /*$mod = UserMod::find($id);
+        echo $mod->name. " ".$mod->surname. " => is owner Shop 
+        : ".$mod->shop->name;
+        echo "<br />";
+        $shop = UserMod::find($id)->shop;
+        echo $shop->name;*/
+        /*$mod = ShopMod::find($id);
+        echo $mod->name;
+
+        echo "<br />";
+        echo $mod->user->name;*/
+        
+        /*$products = ShopMod::find($id)->products;
+
+        foreach ($products as $product) {
+            echo $product->name;
+            echo "<br />";
+           }   
+           echo "OR <br /><br />";
+
+           $shops = ShopMod::find($id);
+           echo $shops->name;
+           echo "<br />";
+
+           foreach ($shops->products as $product) {
+               echo $product->name;
+               echo "<br />";
+           }*/
+
+           $product = ProductMod::find($id);
+           echo "Product Name Is: ".$product->name;
+           echo "<br />";
+           echo "Shop Owner Is : ".$product->shop->name;
+           
     }
 
     /**
@@ -87,7 +137,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $mod = UserMod::find($id);
+        $mod->name = $request->name;
+        $mod->email = $request->email;
+        $mod->password = bcrypt($request->password);
+        $mod->save();
+        echo "Update Succes";
+        //return "Update";
     }
 
     /**
@@ -98,6 +154,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+       $mod = UserMod::find($id);
+       $mod ->delete();
+       echo "Delete Success";
     }
 }
