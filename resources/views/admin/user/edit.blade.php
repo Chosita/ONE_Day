@@ -9,13 +9,13 @@
  <li class="breadcrumb-item active">Create</li>
 </ol>
 <!-- breadcrumb End -->
-<!--@include('admin.layouts.partials.flash-message')-->
+@include('admin.layouts.partials.flash-message')
 
 <div class="card mb-3">
   <div class="card-header">Create User</div>
   <div class="card-body">
     <!--<form method="POST" action="{{ URL::to('admin/user/'.$item->id) }}">-->
-    <form method="POST" action="#">
+    <form method="POST" action="{{ URL::to('admin/users/'.$item->id) }}">
 
     <div class="card border-dark">
           <div class="card-header">
@@ -24,11 +24,11 @@
           <div class="card-body text-dark">
               <div class="form-group">
                 <label for="email">Email address</label>
-                <!--<input class="form-control" id="email" name="email" type="email" value="{{ old('email') ? old('email') : $item->email }}" aria-describedby="emailHelp" placeholder="Enter email">-->
-                <input class="form-control" id="email" name="email" type="email" value="" aria-describedby="emailHelp" placeholder="Enter email">
-                <!--@if ($errors->has('email'))
+                <input class="form-control" id="email" name="email" type="email" value="{{ old('email') ? old('email') : $item->email }}" aria-describedby="emailHelp" placeholder="Enter email" disabled>
+                
+                @if ($errors->has('email'))
                     <span class="text-danger">{{ $errors->first('email') }}</span>
-                @endif-->
+                @endif
               </div>
 
               <div class="form-group">
@@ -56,13 +56,13 @@
         <div class="form-row">
           <div class="col-md-6">
             <label for="name">First name</label>
-            <input class="form-control" id="name" name="name" value="" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
+            <input class="form-control" id="name" name="name" value="{{ old('name') ? old('name') : $item->name }}" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
 
 
           </div>
           <div class="col-md-6">
             <label for="surname">Last name</label>
-            <input class="form-control" id="surname" name="surname" value="" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
+            <input class="form-control" id="surname" name="surname" value="{{ old('surname') ? old('surname') : $item->surname }}" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
 
 
           </div>
@@ -73,7 +73,7 @@
         <div class="form-row">
           <div class="col-md-6">
             <label for="mobile">Mobile</label>
-            <input class="form-control" id="mobile" name="mobile" value="" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
+            <input class="form-control" id="mobile" name="mobile" value="{{ old('Mobile') ? old('Mobile') : $item->Mobile }}" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
 
 
           </div>
